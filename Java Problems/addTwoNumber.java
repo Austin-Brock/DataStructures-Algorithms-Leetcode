@@ -10,34 +10,28 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        // Initialize a dummy node to simplify edge cases
-        ListNode dummyHead = new ListNode(0);
-        ListNode p = l1, q = l2, curr = dummyHead;
+        ListNode head = new ListNode(0);
+        ListNode curr = head;
         int carry = 0;
-        
-        while (p != null || q != null) {
-            // Get the current values of p and q; if the node is null, treat it as 0
-            int x = (p != null) ? p.val : 0;
-            int y = (q != null) ? q.val : 0;
+
+        while(l1!=null || l2!=null || carry !=0) {
+            int sum = 0;
             
-            // Calculate the sum of the current digits and the carry
-            int sum = carry + x + y;
-            carry = sum / 10;
-            // Create a new node with the digit value of sum % 10 and attach it to the current node
-            curr.next = new ListNode(sum % 10);
+            if(l1!=null) {
+                sum += l1.val;
+                l1 = l1.next;
+            }
+
+            if (l2!=null) {
+                sum += l2.val;
+                l2 = l2.next;
+            }
+            sum += carry;
+            curr.next = new ListNode(sum%10);
             curr = curr.next;
-            
-            // Move p and q forward
-            if (p != null) p = p.next;
-            if (q != null) q = q.next;
+            carry = sum/10;
         }
-        
-        // If there's still a carry after processing both lists, add a new node
-        if (carry > 0) {
-            curr.next = new ListNode(carry);
-        }
-        
-        // The first node is a dummy node, so we return its next node
-        return dummyHead.next;
+
+        return head.next;
     }
 }
